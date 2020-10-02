@@ -15,7 +15,7 @@ class NoteChange(models.Model):
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=1500)
     created_date = models.CharField(max_length=100)
-    modified_date = models.CharField(max_length=100)
+    modified_date = models.DateTimeField(auto_now=True)
     action = models.CharField(max_length=10)
     version = models.CharField(max_length=5)
     

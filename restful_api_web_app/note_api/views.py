@@ -15,8 +15,8 @@ def api_root(request):
         'Get Note By ID':'api/note-list/<str:pk>/',
         'Create Note':'api/note-create/',
         'Update/Delete Note By ID': 'api/note-modify/<str:pk>/',
-        'Get Whole Note Change History' : 'api/notechange-list/',
-        'Get Note Change History by ID' : 'api/notechange-list/<str:ID>',
+        'Get Whole Note Change History' : 'api/notehistory-list/',
+        'Get Note Change History by ID' : 'api/notehistory-list/<str:note_id>',
     }
     return Response(api_urls)
     
@@ -107,16 +107,27 @@ class NoteModify(APIView):
         if serializer.is_valid() :
             serializer.save()
         return Response(serializer.data)
+        
 
+@api_view(['GET'])
+def note_history_list(request):
+    note_changes = models.NoteChange.objects.all()
+    serializer = serializers.NoteChangeSerializer(note_changes, many=True)
+    return Response(serializer.data)
 
-'''
-serializer = serializers.NoteSerializer(data=request.data)
+@api_view(['GET'])
+def note_history_by_ID(request,note_id):
     
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        msg = {"Title or Content cannot be left empty"}
+    
+    note_changes = models.NoteChange.objects.filter(corre_note=note_id)
+    if not note_changes:
+        msg = {"Note History with this ID does not exist"}
         return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    else :
+        serializer = serializers.NoteChangeSerializer(note_changes, many=True)
+        return Response(serializer.data)
+
     
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-'''
+    
+
+
