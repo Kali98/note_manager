@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from . import serializers
 from . import models
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 
 @api_view(['GET'])
@@ -12,8 +14,7 @@ def api_root(request):
         'Get All Notes':'api/note-list/',
         'Get Note By ID':'api/note-list/<str:pk>/',
         'Create Note':'api/note-create/',
-        'Update Note By ID': 'api/note-update/<str:pk>/',
-        'Delete Note By ID': 'api/note-delete/<str:pk>/',
+        'Update/Delete Note By ID': 'api/note-modify/<str:pk>/',
         'Get Whole Note Change History' : 'api/notechange-list/',
         'Get Note Change History by ID' : 'api/notechange-list/<str:ID>',
     }
@@ -27,12 +28,95 @@ def note_list(request):
 
 @api_view(['GET'])
 def note_by_ID(request,pk):
-    notes = models.Note.objects.get(id=pk)
-    serializer = serializers.NoteSerializer(notes, many=False)
-    return Response(serializer.data)
-
+    try:
+        note = models.Note.objects.get(id=pk)
+        serializer = serializers.NoteSerializer(note, many=False)
+        return Response(serializer.data)
+    except:
+        msg = {"Note with this ID does not exist"}
+        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    
 @api_view(['POST'])
 def note_create(request):
+    '''
+    JSON Content Input Example:
+        {
+        "title": "New Note",
+        "content": "This note was written by me"
+        }
+    '''
+    
     serializer = serializers.NoteSerializer(data=request.data)
-    return Response(serializer.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        msg = {"Title or Content cannot be left empty"}
+        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class NoteModify(APIView):
+  
+    def get_object(self,pk):
+        try:
+            return models.Note.objects.get(pk=pk)
+        except: 
+            msg = {"Note with this ID does not exist"}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self,request,pk):
+        note = self.get_object(pk)
+        
+        serializer = serializers.NoteSerializer(note)
+        return Response(serializer.data)
+
+    def put(self,request,pk):
+        note = self.get_object(pk)
+        serializer = serializers.NoteSerializer(instance=note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            msg = {"Title or Content cannot be left empty"}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+        
+        self.log_modified_note(request,pk,"UPDATED")
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self,request,pk):
+        note = self.get_object(pk)
+        self.log_modified_note(request,pk,"DELETED")
+
+        note.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    def log_modified_note(self,request,pk,note_action):
+        print(note_action)
+        note = self.get_object(pk)
+        new_note_change =models.NoteChange.objects.create(
+            corre_note = pk,
+            title = note.title,
+            content = note.content,
+            created_date = note.created_date,
+            modified_date = note.modified_date,
+            action = note_action,
+            version = (models.NoteChange.objects.filter(corre_note=pk).count())+1
+        )
+        serializer = serializers.NoteChangeSerializer(data =new_note_change)
+        if serializer.is_valid() :
+            serializer.save()
+        return Response(serializer.data)
+
+
+'''
+serializer = serializers.NoteSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        msg = {"Title or Content cannot be left empty"}
+        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+'''
