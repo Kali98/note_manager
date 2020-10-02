@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from . import serializers
 from . import models
 from rest_framework.decorators import api_view
