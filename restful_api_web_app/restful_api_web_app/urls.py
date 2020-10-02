@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from .router import router
+import note_api.views as views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', views.api_root, name="API overview"),
+    path('api/note-list/', views.note_list, name="List of Notes"),
+    path('api/note-list/<str:pk>', views.note_by_ID, name="ID of particular Note")
 ]
