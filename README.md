@@ -14,7 +14,7 @@ pip install -r requirements.txt
     
     Scroll down to database specifications and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then change that information as well.
 
-3.  Navigate into the **restful_api_web_app** folder with the terminal where the 'manage.py' file will be accessible and create migrations for the model and django generate tables with command below:
+3.  Navigate into the **restful_api_web_app** folder with the terminal where the 'manage.py' file will be accessible and create migrations for the models and the django generated tables with command below:
 ```
 python manage.py migrate
 ```
