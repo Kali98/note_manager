@@ -1,29 +1,25 @@
 # What is required for running the project
-Python3 along with the Django framework and PGAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install; navigate to the directory where the project will be cloned/installed, create and activate an environment, clone the project and then enter the command below to install all requirements
+Python3 along with the Django framework and pgAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install these requirements; navigate to the directory where the project will be cloned/installed. Create and activate a virtual environment, clone the project and enter it's directory **cd note_manager**.
+
+To install all requirements; enter the command below.
 ```
 pip install -r requirements.txt
 ```
 # Steps how to run scripts that will setup database for the project
 1.  Start up pgAdmin, login and create a new database (i.e 'note_manager_db') 
 
-2.  Navigate to the settings.py file located under: 
+2.  Edit the settings.py file located under: 
     
     **note_manager\restful_api_web_app\restful_api_web_app\settings.py**
     
-    Scroll down to database specs and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then change that information as well
+    Scroll down to database specifications and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then change that information as well.
 
-3.  Make migrations for the django generated tables with command:
-```
-python manage.py makemigrations restful_api_web_app
-```
-4.  Make migrations for the model tables (note & notechange):
-```
-python manage.py makemigrations note_api
-```
-5.  Confirm and create all migrations
+3.  Navigate into the **restful_api_web_app** folder with the terminal where the 'manage.py' file will be accessible and create migrations for the model and django generate tables with command below:
 ```
 python manage.py migrate
 ```
+At this point if you refresh the database in pgAdmin you'll see all of the new tables.
+
 # Steps how to build and run the project
 1.  Run the server with command:
 ```
