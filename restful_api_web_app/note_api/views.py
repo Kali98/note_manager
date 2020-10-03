@@ -21,7 +21,7 @@ def api_root(request):
     
 @api_view(['GET'])
 def note_list(request):
-    notes = models.Note.objects.all()
+    notes = models.Note.objects.all() 
     serializer = serializers.NoteSerializer(notes, many=True)
     return Response(serializer.data)
 
@@ -70,15 +70,16 @@ class NoteModify(APIView):
 
     def put(self,request,pk):
         note = self.get_object(pk)
-
+        
         serializer = serializers.NoteSerializer(instance=note, data=request.data)
         if serializer.is_valid():
+            self.log_modified_note(request,pk,"UPDATED")
             serializer.save()
         else:
             msg = {"Title or Content cannot be left empty"}
             return Response(msg, status=status.HTTP_400_BAD_REQUEST)
         
-        self.log_modified_note(request,pk,"UPDATED")
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self,request,pk):
