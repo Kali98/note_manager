@@ -1,7 +1,7 @@
 # What is required for running the project
-Python3 along with the Django framework and pgAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install these requirements; navigate to the directory where the project will be cloned/installed. Create and activate a virtual environment, clone the project and enter it's directory ( **cd note_manager** ).
+To run the project you'll primarily need Python3 to execute '.py' files and pgAdmin to setup the database. All of the other unmentioned requirements such as Django and Django REST frameworks are listed within the 'requirements.txt' file. To install the contents of this file; navigate to the directory where you'll clone/install the project. Create and activate a virtual environment, clone the project and proceed to it's directory ( **cd note_manager** ).
 
-To install all requirements; enter the command below.
+To install the contents of 'requirements.txt'; enter the command below.
 ```
 pip install -r requirements.txt
 ```
@@ -12,13 +12,13 @@ pip install -r requirements.txt
     
     **note_manager\restful_api_web_app\restful_api_web_app\settings.py**
     
-    Scroll down to database specifications and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then change that information as well.
+    Scroll down to database specifications and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then appropriately change that piece of information as well.
 
-3.  Navigate into the **restful_api_web_app** folder with the terminal where the 'manage.py' file will be accessible and create migrations for the models and the django generated tables with command below:
+3.  Navigate into the first **restful_api_web_app** folder with the terminal where the 'manage.py' file will be accessible and create migrations for the model and the django generated tables using command below:
 ```
 python manage.py migrate
 ```
-At this point if you refresh the database in pgAdmin you'll see all of the new tables.
+At this point if you refresh the database in pgAdmin you'll see all of the newly generated tables.
 
 # Steps how to build and run the project
 1.  Run the server with command:
