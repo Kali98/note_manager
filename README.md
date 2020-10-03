@@ -1,5 +1,5 @@
 # What is required for running the project
-Python3 along with the Django framework and pgAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install these requirements; navigate to the directory where the project will be cloned/installed. Create and activate a virtual environment, clone the project and enter it's directory **cd note_manager**.
+Python3 along with the Django framework and pgAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install these requirements; navigate to the directory where the project will be cloned/installed. Create and activate a virtual environment, clone the project and enter it's directory ( **cd note_manager** ).
 
 To install all requirements; enter the command below.
 ```
