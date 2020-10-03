@@ -67,3 +67,8 @@ curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XGET "h
 ```
 curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XGET "http://127.0.0.1:8000/api/notehistory-list/1"
 ```
+## Additional Notes
+To run intergration tests; use command:
+```
+python manage.py test
+```
