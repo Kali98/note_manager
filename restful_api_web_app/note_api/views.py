@@ -33,18 +33,17 @@ def note_by_ID(request,pk):
         return Response(serializer.data)
     except:
         msg = {"Note with this ID does not exist"}
-        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+        return Response(msg, status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['POST'])
 def note_create(request):
     '''
-    JSON Content Input Example:
+    JSON Request Body Example:
         {
         "title": "New Note",
         "content": "This note was written by me"
         }
-    '''
-    
+    '''  
     serializer = serializers.NoteSerializer(data=request.data)
     
     if serializer.is_valid():
@@ -60,18 +59,18 @@ class NoteModify(APIView):
     def get_object(self,pk):
         try:
             return models.Note.objects.get(pk=pk)
-        except: 
+        except models.Note.objects.get(pk=pk).DoesNotExist:
             msg = {"Note with this ID does not exist"}
-            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+            return Response(msg, status=status.HTTP_404_NOT_FOUND)
     
     def get(self,request,pk):
-        note = self.get_object(pk)
-        
+        note = self.get_object(pk)   
         serializer = serializers.NoteSerializer(note)
         return Response(serializer.data)
 
     def put(self,request,pk):
         note = self.get_object(pk)
+
         serializer = serializers.NoteSerializer(instance=note, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -125,8 +124,3 @@ def note_history_by_ID(request,note_id):
     else :
         serializer = serializers.NoteChangeSerializer(note_changes, many=True)
         return Response(serializer.data)
-
-    
-    
-
-

@@ -1,24 +1,26 @@
 # What is required for running the project
-Python3 along with the Django framework and PGAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install; firstly navigate to the directory where the project was cloned and proceed to activate a virtual environment and install the requirements using command below:
+Python3 along with the Django framework and PGAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install; navigate to the directory where the project was cloned and proceed to activate a virtual environment and install the requirements using command below:
 ```
 pip install -r requirements.txt
 ```
 # Steps how to run scripts that will setup database for the project
-1.  Since this webservice is accomodated with a PostgreSQL backend; first of all go to settings.py located under: 
+1.  Start up pgAdmin, login and create a new database (i.e 'note_manager_db') 
+
+2.  Navigate to the settings.py file located under: 
     
     **note_manager\restful_api_web_app\restful_api_web_app\settings.py**
     
-    Scroll down to database specs and replace the password value with your passoword from pgAdmin (the default username should be 'postgres')
+    Scroll down to database specs and replace the password value with your password from pgAdmin (the default username should be 'postgres') and if you have created a database with a different name then change that information as well
 
-2. Make migrations for the django generated tables with command:
+3.  Make migrations for the django generated tables with command:
 ```
 python manage.py makemigrations restful_api_web_app
 ```
-3. Make migrations for the model tables (note & notechange):
+4.  Make migrations for the model tables (note & notechange):
 ```
 python manage.py makemigrations note_api
 ```
-4. Confirm and create all migrations
+5.  Confirm and create all migrations
 ```
 python manage.py migrate
 ```
@@ -55,7 +57,7 @@ curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPOST "
 ```
 - PUT update note:
 ```
-curl --location --request PUT 'http://127.0.0.1:8000/api/note-modify/1/' --header 'Content-Type: application/json' --data-raw '{"title": "My New Note","content": "I Actually do not like this note"}'
+curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XPUT "http://127.0.0.1:8000/api/note-modify/1/" -d '{"title": "My New Note","content": "I actually do not like this note"}'
 ```
 - DELETE delete note:
 ```

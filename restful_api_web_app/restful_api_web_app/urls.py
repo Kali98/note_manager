@@ -20,7 +20,7 @@ import note_api.views as views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', views.api_root, name="api_root"),
-    path('api/note-list/', views.note_list, name="notes_list"),
+    path('api/note-list/', views.note_list, name="note_list"),
     path('api/note-list/<str:pk>/', views.note_by_ID, name="note_by_id"),
     path('api/note-create/', views.note_create, name="note_create"),
     path('api/note-modify/<str:pk>/',views.NoteModify.as_view(), name="note_upd_del"),
