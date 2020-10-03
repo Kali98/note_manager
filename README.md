@@ -1,5 +1,5 @@
 # What is required for running the project
-Python3 along with the Django framework and PGAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install; navigate to the directory where the project was cloned and proceed to activate a virtual environment and install the requirements using command below:
+Python3 along with the Django framework and PGAdmin for managing the PostgreSQL database. All of the other unmentioned requirements are listed within 'requirements.txt'. To install; navigate to the directory where the project will be cloned/installed, create and activate an environment, clone the project and then enter the command below to install all requirements
 ```
 pip install -r requirements.txt
 ```
